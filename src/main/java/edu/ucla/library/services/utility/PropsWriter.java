@@ -32,7 +32,7 @@ public class PropsWriter {
     readWrite(aTemplate, aOutput);
   }
 
-  private static void verifyArgs(String[] aArray) {
+  public static void verifyArgs(final String[] aArray) {
     if (aArray.length != 3) {
       System.err.println("usage: PropsWriter defaultsFile templateFile propertiesFile");
       System.exit(101);
@@ -44,33 +44,33 @@ public class PropsWriter {
     checkReadable(aArray[1]);
   }
 
-  private static void checkExists(final String aFileName) {
+  public static void checkExists(final String aFileName) {
     if (!Files.exists(FileSystems.getDefault().getPath(aFileName))) {
-      System.err.println("usage: PropsWriter defaultsFile templateFile propertiesFile");
+      System.err.println("File must exist: " + aFileName);
       System.exit(102);
     }
   }
     
-  private static void checkReadable(final String aFileName) {
+  public static void checkReadable(final String aFileName) {
     if (!Files.isReadable(FileSystems.getDefault().getPath(aFileName))) {
-      System.err.println("usage: PropsWriter defaultsFile templateFile propertiesFile");
+      System.err.println("File must be readable: " + aFileName);
       System.exit(103);
     }
   }
     
-  private static void loadProps(final String aFileName) {
+  public static void loadProps(final String aFileName) {
     try {
       props.load(new FileInputStream(new File(aFileName)));
     } catch (FileNotFoundException e) {
-      System.err.println(e.getMessage());
+      System.err.println("Props file must exist: " + e.getMessage());
+      System.exit(104);
+    } catch (IOException details) {
+      System.err.println("I/O error reading props file: " + details.getMessage());
       System.exit(105);
-    } catch (IOException e) {
-      System.err.println(e.getMessage());
-      System.exit(106);
     }
   }
 
-  private static void readWrite(final String aInput, final String aOutput) {
+  public static void readWrite(final String aInput, final String aOutput) {
     final BufferedReader reader;
     final BufferedWriter writer;
     String line = null;
@@ -90,12 +90,12 @@ public class PropsWriter {
       writer.newLine();
       writer.flush();
       writer.close();
-    } catch (FileNotFoundException e) {
-      System.err.println(e.getMessage());
+    } catch (FileNotFoundException details) {
+      System.err.println("Problem finding a file: " + details.getMessage());
+      System.exit(106);
+    } catch (IOException details) {
+      System.err.println("I/O problem with a file: " + details.getMessage());
       System.exit(107);
-    } catch (IOException e) {
-      System.err.println(e.getMessage());
-      System.exit(108);
     }
   }
 
