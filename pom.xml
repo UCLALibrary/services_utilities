@@ -165,4 +165,10 @@
     </dependency>
   </dependencies>
 
+  <parent>
+    <artifactId>freelib-parent</artifactId>
+    <groupId>info.freelibrary</groupId>
+    <version>4.0.0</version>
+  </parent>
+
 </project>
