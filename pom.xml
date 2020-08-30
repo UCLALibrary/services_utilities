@@ -138,11 +138,13 @@
               <dir>src/main/resources</dir>
               <includes>checkstyle.xml</includes>
             </validationSet>
-            <!--validationSet>
-              <dir>src/test/resources</dir>
-            </validationSet-->
           </validationSets>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.gavinmogan</groupId>
+        <artifactId>codacy-maven-plugin</artifactId>
+        <version>1.2.0</version>
       </plugin>
     </plugins>
   </build>
