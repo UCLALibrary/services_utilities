@@ -133,12 +133,12 @@
           </execution>
         </executions>
         <configuration>
-          <validationSets>
+          <!--validationSets>
             <validationSet>
               <dir>src/main/resources</dir>
               <includes>checkstyle.xml</includes>
             </validationSet>
-          </validationSets>
+          </validationSets-->
         </configuration>
       </plugin>
       <plugin>
