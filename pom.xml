@@ -121,27 +121,6 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>xml-maven-plugin</artifactId>
-        <version>1.0.2</version>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>validate</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <!--validationSets>
-            <validationSet>
-              <dir>src/main/resources</dir>
-              <includes>checkstyle.xml</includes>
-            </validationSet>
-          </validationSets-->
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>com.gavinmogan</groupId>
         <artifactId>codacy-maven-plugin</artifactId>
         <version>1.2.0</version>
