@@ -70,7 +70,7 @@ public final class PropsWriter {
         if (aArray.length != ARGS_COUNT) {
             System.err.println(
                 "usage: PropsWriter defaults template output");
-            System.exit(Constants.USAGE_ERROR);
+            System.exit(ExitCodes.USAGE_ERROR);
         }
       // check that default props and template files exist/are readable
         checkExists(aArray[0]);
@@ -87,7 +87,7 @@ public final class PropsWriter {
     public static void checkExists(final String aFileName) {
         if (!Files.exists(FileSystems.getDefault().getPath(aFileName))) {
             System.err.println("File must exist: " + aFileName);
-            System.exit(Constants.DOESNT_EXIST_ERROR);
+            System.exit(ExitCodes.DOESNT_EXIST_ERROR);
         }
     }
 
@@ -99,7 +99,7 @@ public final class PropsWriter {
     public static void checkReadable(final String aFileName) {
         if (!Files.isReadable(FileSystems.getDefault().getPath(aFileName))) {
             System.err.println("File must be readable: " + aFileName);
-            System.exit(Constants.NOT_READABLE_ERROR);
+            System.exit(ExitCodes.NOT_READABLE_ERROR);
         }
     }
 
@@ -114,11 +114,11 @@ public final class PropsWriter {
         } catch (FileNotFoundException e) {
             System.err.println("Props file must exist: "
                 + e.getMessage());
-            System.exit(Constants.DOESNT_EXIST_ERROR);
+            System.exit(ExitCodes.DOESNT_EXIST_ERROR);
         } catch (IOException details) {
             System.err.println("I/O error reading props file: "
                 + details.getMessage());
-            System.exit(Constants.IO_ERROR);
+            System.exit(ExitCodes.IO_ERROR);
         }
     }
 
@@ -141,7 +141,8 @@ public final class PropsWriter {
                 if (line.contains(DELIMITER)) {
                     final String key = line.substring(line.indexOf(DELIMITER) + 1);
                     writer.write(line.replace(DELIMITER, "").replace(key,
-                        PROPS.getProperty(key)));
+                        getValue(key)));
+                        //PROPS.getProperty(key)));
                 } else {
                     writer.write(line);
                 }
@@ -154,11 +155,24 @@ public final class PropsWriter {
         } catch (FileNotFoundException details) {
             System.err.println("Problem finding a file: "
                 + details.getMessage());
-            System.exit(Constants.DOESNT_EXIST_ERROR);
+            System.exit(ExitCodes.DOESNT_EXIST_ERROR);
         } catch (IOException details) {
             System.err.println("I/O problem with a file: "
                 + details.getMessage());
-            System.exit(Constants.IO_ERROR);
+            System.exit(ExitCodes.IO_ERROR);
+        }
+    }
+
+    /**
+     * Return environment variable value if exists, else default from properties.
+     *
+     * @param aKey key to check in enviroment and default properties
+    */
+    private static String getValue(final String aKey) {
+        if (System.getenv(aKey) != null) {
+            return System.getenv(aKey);
+        } else {
+            return PROPS.getProperty(aKey);
         }
     }
 

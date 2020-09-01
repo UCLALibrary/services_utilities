@@ -24,3 +24,6 @@ hs_err_pid*
 
 # Build artifacts in case someone doesn't use a global .gitignore
 target/*
+
+src/main/tools/eclipse
+src/main/tools/travis

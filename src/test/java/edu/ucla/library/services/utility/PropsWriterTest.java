@@ -5,7 +5,7 @@ import static com.github.stefanbirkner.systemlambda.SystemLambda.catchSystemExit
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -21,28 +21,34 @@ import java.nio.file.Files;
 public class PropsWriterTest {
 
   /**
-   * default properties file.
+   * Default properties file.
   */
     private static final String DEFAULTS =
         "src/test/resources/properties.default";
 
   /**
-   * output template file.
+   * Output template file.
   */
     private static final String TEMPLATE =
         "src/test/resources/properties.tmpl";
 
   /**
-   * final output file.
+   * Final output file.
   */
     private static final String OUTPUT =
         "src/test/resources/output.properties";
 
   /**
-   * fake file name used to cause app failures.
+   * Fake file name used to cause app failures.
   */
     private static final String FAKE =
         "src/test/resources/not.there";
+
+  /**
+   * Unreadable file
+  */
+    private static final String LOCKED =
+        "src/test/resources/properties.locked";
 
   /**
    * rule that allows catching System.err output in tests.
@@ -51,13 +57,13 @@ public class PropsWriterTest {
     public final SystemErrRule mySystemErrRule = new SystemErrRule().enableLog();
 
   /**
-   * Sets up a PropsWriter test.
+   * Cleans up after a PropsWriter test.
    *
    * @throws IOException If there is a problem deleting the file
   */
-    @Before
-    public void setUp() throws IOException {
-        // delete the output file if lest over from previous run
+    @After
+    public void tearDown() throws IOException {
+        // delete the output file if left over from test run
         Files.deleteIfExists(FileSystems.getDefault().getPath(OUTPUT));
     }
 
@@ -81,7 +87,7 @@ public class PropsWriterTest {
             PropsWriter.checkExists(FAKE);
         });
         assertTrue(mySystemErrRule.getLog().contains("File must exist"));
-        assertEquals(Constants.DOESNT_EXIST_ERROR, statusCode);
+        assertEquals(ExitCodes.DOESNT_EXIST_ERROR, statusCode);
     }
 
   /**
@@ -94,7 +100,7 @@ public class PropsWriterTest {
             PropsWriter.checkReadable(FAKE);
         });
         assertTrue(mySystemErrRule.getLog().contains("File must be readable"));
-        assertEquals(Constants.NOT_READABLE_ERROR, statusCode);
+        assertEquals(ExitCodes.NOT_READABLE_ERROR, statusCode);
     }
 
   /**
@@ -107,7 +113,7 @@ public class PropsWriterTest {
             PropsWriter.verifyArgs(new String[] {});
         });
         assertTrue(mySystemErrRule.getLog().contains("usage"));
-        assertEquals(Constants.USAGE_ERROR, statusCode);
+        assertEquals(ExitCodes.USAGE_ERROR, statusCode);
     }
 
   /**
@@ -120,7 +126,7 @@ public class PropsWriterTest {
             PropsWriter.loadProps(FAKE);
         });
         assertTrue(mySystemErrRule.getLog().contains("Props file must exist"));
-        assertEquals(Constants.DOESNT_EXIST_ERROR, statusCode);
+        assertEquals(ExitCodes.DOESNT_EXIST_ERROR, statusCode);
     }
 
 }

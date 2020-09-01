@@ -3,11 +3,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   
   <modelVersion>4.0.0</modelVersion>
-  <groupId>Services</groupId>
-  <artifactId>ServicesUtilities</artifactId>
+  <groupId>edu.ucla.library</groupId>
+  <artifactId>services-utilities</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>ServicesUtilities</name>
-  <description>Simple utilities for UCLA Services Team projects</description>
+  <name>services-utilities</name>
+  <description>Simple utilities for UCLA LIbrary Services Team projects</description>
   
   <licenses>
     <license>
@@ -25,7 +25,40 @@
       <organizationUrl>http://github.com/uclalibrary</organizationUrl>
       <timezone>America/Los_Angeles</timezone>
     </developer>
+    <developer>
+      <id>ksclarke</id>
+      <name>Kevin S. Clarke</name>
+      <email>ksclarke@ksclarke.io</email>
+      <organization>UCLA Library</organization>
+      <organizationUrl>http://github.com/uclalibrary</organizationUrl>
+      <timezone>America/New_York</timezone>
+    </developer>
+    <developer>
+      <id>cachemeoutside</id>
+      <name>Anthony Vuong</name>
+      <email>avuong@cachemeoutside.io</email>
+      <organization>UCLA Library</organization>
+      <organizationUrl>http://github.com/uclalibrary</organizationUrl>
+      <timezone>America/Los_Angeles</timezone>
+    </developer>
+    <developer>
+      <id>markmatney</id>
+      <name>Mark A. Matney, Jr.</name>
+      <email>mmatney@library.ucla.edu</email>
+      <organization>UCLA Library</organization>
+      <organizationUrl>http://github.com/uclalibrary</organizationUrl>
+      <timezone>America/Los_Angeles</timezone>
+    </developer>
   </developers>
+
+  <properties>
+    <maven-compiler.version>3.8.1</maven-compiler.version>
+    <surefire.version>3.0.0-M5</surefire.version>
+    <codacy.version>1.2.0</codacy.version>
+    <junit.version>4.13</junit.version>
+    <system-rules.version>1.19.0</system-rules.version>
+    <system-lambda.version>1.1.0</system-lambda.version>
+  </properties>
 
   <build>
     <resources>
@@ -44,7 +77,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>${maven-compiler.version}</version>
         <configuration>
           <release>11</release>
         </configuration>
@@ -58,12 +91,12 @@
           </includes>
           <argLine>${jacoco.agent.arg}</argLine>
         </configuration>
-        <version>3.0.0-M5</version>
+	<version>${surefire.version}</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.maven.surefire</groupId>
             <artifactId>surefire-junit47</artifactId>
-            <version>3.0.0-M5</version>
+	    <version>${surefire.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -135,7 +168,7 @@
       <plugin>
         <groupId>com.gavinmogan</groupId>
         <artifactId>codacy-maven-plugin</artifactId>
-        <version>1.2.0</version>
+	<version>${codacy.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -182,19 +215,19 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.github.stefanbirkner</groupId>
       <artifactId>system-rules</artifactId>
-      <version>1.19.0</version>
+      <version>${system-rules.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.github.stefanbirkner</groupId>
       <artifactId>system-lambda</artifactId>
-      <version>1.1.0</version>
+      <version>${system-lambda.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -202,7 +235,7 @@
   <parent>
     <artifactId>freelib-parent</artifactId>
     <groupId>info.freelibrary</groupId>
-    <version>4.0.0</version>
+    <version>4.0.1</version>
   </parent>
 
 </project>
