@@ -137,6 +137,44 @@
         <artifactId>codacy-maven-plugin</artifactId>
         <version>1.2.0</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-dependency-analyzer</artifactId>
+            <version>${maven.dependency.analyzer.version}</version>
+            <exclusions>
+              <exclusion>
+                <artifactId>maven-project</artifactId>
+                <groupId>org.apache.maven</groupId>
+              </exclusion>
+            </exclusions>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>unpack-build-resources</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>info.freelibrary</groupId>
+                  <artifactId>freelib-resources</artifactId>
+                  <version>${freelib.resources.version}</version>
+                  <type>jar</type>
+                  <includes>eclipse/**/*,checkstyle/**/*,pmd/**/*,travis/**/*</includes>
+                  <outputDirectory>${basedir}/target/build-resources</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   
