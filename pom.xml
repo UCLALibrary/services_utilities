@@ -85,13 +85,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-	<configuration>
+        <configuration>
           <includes>
             <include>**/*Test.java</include>
           </includes>
           <argLine>${jacoco.agent.arg}</argLine>
         </configuration>
-	<version>${surefire.version}</version>
+        <version>${surefire.version}</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.maven.surefire</groupId>
