@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -47,8 +48,8 @@ public class PropsWriterTest {
   /**
    * Unreadable file
   */
-    private static final String LOCKED =
-        "src/test/resources/properties.locked";
+    private static final String NOREAD =
+        "src/test/resources/properties.noread";
 
   /**
    * rule that allows catching System.err output in tests.
@@ -57,14 +58,28 @@ public class PropsWriterTest {
     public final SystemErrRule mySystemErrRule = new SystemErrRule().enableLog();
 
   /**
+   * Set up before a PropsWriter test.
+   *
+   * @throws SecurityException If there is a problem setting file permissions
+  */
+    @Before
+    public void setUp() throws SecurityException {
+        // remove read permissions on unreadable file
+        FileSystems.getDefault().getPath(NOREAD).toFile().setReadable(false, false);
+    }
+
+  /**
    * Cleans up after a PropsWriter test.
    *
    * @throws IOException If there is a problem deleting the file
+   * @throws SecurityException If there is a problem setting file permissions
   */
     @After
-    public void tearDown() throws IOException {
+    public void tearDown() throws IOException, SecurityException {
         // delete the output file if left over from test run
         Files.deleteIfExists(FileSystems.getDefault().getPath(OUTPUT));
+        // restore read permissions on unreadable file for git access
+        FileSystems.getDefault().getPath(NOREAD).toFile().setReadable(true, false);
     }
 
   /**
@@ -97,7 +112,7 @@ public class PropsWriterTest {
     @Test
     public void testCheckReadable() throws Exception {
         final int statusCode = catchSystemExit(() -> {
-            PropsWriter.checkReadable(FAKE);
+            PropsWriter.checkReadable(NOREAD);
         });
         assertTrue(mySystemErrRule.getLog().contains("File must be readable"));
         assertEquals(ExitCodes.NOT_READABLE_ERROR, statusCode);
