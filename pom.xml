@@ -89,7 +89,10 @@
           <includes>
             <include>**/*Test.java</include>
           </includes>
-          <argLine>${jacoco.agent.arg}</argLine>
+	  <argLine>${jacoco.agent.arg}</argLine>
+	  <environmentVariables>
+            <fester.s3.bucket>iiif-manifest-store</fester.s3.bucket>
+          </environmentVariables>
         </configuration>
         <version>${surefire.version}</version>
         <dependencies>

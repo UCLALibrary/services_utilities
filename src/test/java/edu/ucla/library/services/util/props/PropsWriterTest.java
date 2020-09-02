@@ -12,7 +12,9 @@ import org.junit.Test;
 
 import org.junit.contrib.java.lang.system.SystemErrRule;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Properties;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 
@@ -52,6 +54,30 @@ public class PropsWriterTest {
         "src/test/resources/properties.noread";
 
   /**
+   * Key for default property value
+  */
+    private static final String DEFAULT_KEY =
+        "fester.http.port";
+
+  /**
+   * Expected value for DEFAULT_KEY
+  */
+    private static final String DEFAULT_VALUE =
+        "8888";
+
+  /**
+   * Key for ENV property value
+  */
+    private static final String ENV_KEY =
+        "fester.s3.bucket";
+
+  /**
+   * Expected value for ENV_KEY
+  */
+    private static final String ENV_VALUE =
+        "iiif-manifest-store";
+
+  /**
    * rule that allows catching System.err output in tests.
   */
     @Rule
@@ -85,11 +111,18 @@ public class PropsWriterTest {
   /**
    * Tests happy path for app execution.
    *
+   * @throws IOException If there is a problem reading OUTPUT
+   * @throws FileNotFoundException if OUTPUT can't be found
   */
     @Test
-    public void testBuildProperties() {
+    public void testBuildProperties() throws FileNotFoundException, IOException {
+        final Properties props = new Properties();
+
         PropsWriter.buildProperties(DEFAULTS, TEMPLATE, OUTPUT);
         assertTrue(Files.exists(FileSystems.getDefault().getPath(OUTPUT)));
+        props.load(Files.newBufferedReader(FileSystems.getDefault().getPath(OUTPUT)));
+        assertEquals(DEFAULT_VALUE, props.get(DEFAULT_KEY));
+        assertEquals(ENV_VALUE, props.get(ENV_KEY));
     }
 
   /**
