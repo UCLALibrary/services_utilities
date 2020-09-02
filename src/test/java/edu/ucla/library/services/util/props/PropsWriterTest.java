@@ -1,5 +1,5 @@
 
-package edu.ucla.library.services.utility;
+package edu.ucla.library.services.util.props;
 
 import static com.github.stefanbirkner.systemlambda.SystemLambda.catchSystemExit;
 import static org.junit.Assert.assertEquals;

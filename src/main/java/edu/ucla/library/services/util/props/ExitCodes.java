@@ -1,5 +1,5 @@
 
-package edu.ucla.library.services.utility;
+package edu.ucla.library.services.util.props;
 
 public final class ExitCodes {
 
