@@ -7,7 +7,7 @@
   <artifactId>services-utilities</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>services-utilities</name>
-  <description>Simple utilities for UCLA LIbrary Services Team projects</description>
+  <description>Simple utilities for UCLA Library Services Team projects</description>
   
   <licenses>
     <license>
@@ -168,7 +168,7 @@
       <plugin>
         <groupId>com.gavinmogan</groupId>
         <artifactId>codacy-maven-plugin</artifactId>
-	<version>${codacy.version}</version>
+        <version>${codacy.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

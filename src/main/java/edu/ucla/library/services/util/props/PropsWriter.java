@@ -142,7 +142,6 @@ public final class PropsWriter {
                     final String key = line.substring(line.indexOf(DELIMITER) + 1);
                     writer.write(line.replace(DELIMITER, "").replace(key,
                         getValue(key)));
-                        //PROPS.getProperty(key)));
                 } else {
                     writer.write(line);
                 }
