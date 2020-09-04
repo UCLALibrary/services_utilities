@@ -91,7 +91,7 @@
           </includes>
 	  <argLine>${jacoco.agent.arg}</argLine>
 	  <environmentVariables>
-            <fester.s3.bucket>iiif-manifest-store</fester.s3.bucket>
+            <FESTER_S3_BUCKET>iiif-manifest-store</FESTER_S3_BUCKET>
           </environmentVariables>
         </configuration>
         <version>${surefire.version}</version>
