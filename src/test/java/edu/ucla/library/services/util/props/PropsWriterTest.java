@@ -15,6 +15,7 @@ import org.junit.contrib.java.lang.system.SystemErrRule;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.UUID;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 
@@ -39,7 +40,7 @@ public class PropsWriterTest {
    * Final output file.
   */
     private static final String OUTPUT =
-        "src/test/resources/output.properties";
+        "/tmp/".concat(UUID.randomUUID().toString());
 
   /**
    * Fake file name used to cause app failures.
@@ -111,15 +112,24 @@ public class PropsWriterTest {
   /**
    * Tests happy path for app execution.
    *
+  */
+    @Test
+    public void testBuildProperties() {
+        PropsWriter.buildProperties(DEFAULTS, TEMPLATE, OUTPUT);
+        assertTrue(Files.exists(FileSystems.getDefault().getPath(OUTPUT)));
+    }
+
+  /**
+   * Tests that props get loaded in output file.
+   *
    * @throws IOException If there is a problem reading OUTPUT
    * @throws FileNotFoundException if OUTPUT can't be found
   */
     @Test
-    public void testBuildProperties() throws FileNotFoundException, IOException {
+    public void testPropertiesLoaded() throws FileNotFoundException, IOException {
         final Properties props = new Properties();
 
         PropsWriter.buildProperties(DEFAULTS, TEMPLATE, OUTPUT);
-        assertTrue(Files.exists(FileSystems.getDefault().getPath(OUTPUT)));
         props.load(Files.newBufferedReader(FileSystems.getDefault().getPath(OUTPUT)));
         assertEquals(DEFAULT_VALUE, props.get(DEFAULT_KEY));
         assertEquals(ENV_VALUE, props.get(ENV_KEY));
