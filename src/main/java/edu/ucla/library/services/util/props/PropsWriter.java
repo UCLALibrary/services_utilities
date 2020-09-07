@@ -66,7 +66,7 @@ public final class PropsWriter {
      *
      * @param aArray array of file names
     */
-    public static void verifyArgs(final String[] aArray) {
+    public static void verifyArgs(final String... aArray) {
         if (aArray.length != ARGS_COUNT) {
             System.err.println(
                 "usage: PropsWriter defaults template output");
@@ -129,14 +129,12 @@ public final class PropsWriter {
      * @param aOutput pathed name of final properties file
     */
     public static void readWrite(final String aInput, final String aOutput) {
-        final BufferedReader reader;
-        final BufferedWriter writer;
         String line = null;
-        try {
-            reader = Files.newBufferedReader(
+        try (BufferedReader reader = Files.newBufferedReader(
                 FileSystems.getDefault().getPath(aInput));
-            writer = Files.newBufferedWriter(
+            BufferedWriter writer = Files.newBufferedWriter(
                 FileSystems.getDefault().getPath(aOutput));
+        ) {
             while ((line = reader.readLine()) != null) {
                 if (line.contains(DELIMITER)) {
                     final String key = line.substring(line.indexOf(DELIMITER) + 1);
@@ -147,10 +145,7 @@ public final class PropsWriter {
                 }
                 writer.newLine();
             }
-            reader.close();
             writer.newLine();
-            writer.flush();
-            writer.close();
         } catch (FileNotFoundException details) {
             System.err.println("Problem finding a file: "
                 + details.getMessage());
@@ -161,6 +156,7 @@ public final class PropsWriter {
             System.exit(ExitCodes.IO_ERROR);
         }
     }
+
 
     /**
      * Return environment variable value if exists, else default from properties.
